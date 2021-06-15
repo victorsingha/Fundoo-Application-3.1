@@ -28,7 +28,7 @@ namespace FundooApplication.Controllers
             }
             catch (Exception e)
             {
-                return this.Ok(new { success = false, message = $"Registration Fail {e.Message}" });
+                return this.BadRequest(new { success = false, message = $"Registration Fail {e.Message}" });
             }
         }
         [HttpGet]

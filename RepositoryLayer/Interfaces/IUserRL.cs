@@ -8,5 +8,6 @@ namespace RepositoryLayer.Interfaces
     public interface IUserRL
     {
         void RegisterUser(User user);
+        string AuthenticateUser(string email, string password);
     }
 }

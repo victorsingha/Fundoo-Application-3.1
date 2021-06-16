@@ -15,6 +15,19 @@ namespace BusinessLayer.Services
         {
             this.userRL = userRL;
         }
+
+        public string AuthenticateUser(string email, string password)
+        {
+            try
+            {
+                return this.userRL.AuthenticateUser(email, password);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void RegisterUser(User user)
         {
             try

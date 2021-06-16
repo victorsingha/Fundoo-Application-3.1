@@ -31,10 +31,13 @@ namespace FundooApplication.Controllers
                 return this.BadRequest(new { success = false, message = $"Registration Fail {e.Message}" });
             }
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(UserCredential cred)
         {
-            return new string[] { "Get", "Working" };
+            var token = this.userBl.AuthenticateUser(cred.Email,cred.Password);
+            if (token == null)
+                return Unauthorized();
+            return this.Ok(new { success = true, token = token, message = $"Authenticated {cred.Email} {cred.Password}" });
         }
 
     }

@@ -8,17 +8,17 @@ namespace RepositoryLayer.Services
 {
     public class UserRL : IUserRL
     {
-        FundooContext fundooContext;
+        FundooContext _fundooContext;
         public UserRL(FundooContext fundooContext)
         {
-            this.fundooContext = fundooContext;
+            _fundooContext = fundooContext;
         }
         public void RegisterUser(User user)
         {
             try
             {
-                fundooContext.Users.Add(user);
-                fundooContext.SaveChanges();
+                _fundooContext.Users.Add(user);
+                _fundooContext.SaveChanges();
             }
             catch(Exception e)
             {

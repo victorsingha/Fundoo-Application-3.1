@@ -18,7 +18,7 @@ namespace FundooApplication.Controllers
         {
             this.userBl = userBl;
         }
-        [HttpPost]
+        [HttpPost("register")]
         public ActionResult RegisterUser(User user)
         {
             try
@@ -31,7 +31,7 @@ namespace FundooApplication.Controllers
                 return this.BadRequest(new { success = false, message = $"Registration Fail {e.Message}" });
             }
         }
-        [HttpPost("authenticate")]
+        [HttpPost("login")]
         public IActionResult Authenticate(UserCredential cred)
         {
             var token = this.userBl.AuthenticateUser(cred.Email,cred.Password);

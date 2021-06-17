@@ -1,4 +1,5 @@
 ﻿using CommonLayer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Interfaces;
 using System;
@@ -47,9 +48,7 @@ namespace RepositoryLayer.Services
             catch(Exception e)
             {
                 throw new Exception(e.Message);
-            }
-            
-
+            }           
         }
 
         public void RegisterUser(User user)

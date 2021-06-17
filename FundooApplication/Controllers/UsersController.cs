@@ -45,9 +45,10 @@ namespace FundooApplication.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        public string GetUser()
         {
-            return "access";
+            var UserEmail= User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email",StringComparison.InvariantCultureIgnoreCase));
+            return UserEmail.Value;
         }
 
     }

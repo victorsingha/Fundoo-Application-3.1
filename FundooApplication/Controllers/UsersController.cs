@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FundooApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -31,6 +33,7 @@ namespace FundooApplication.Controllers
                 return this.BadRequest(new { success = false, message = $"Registration Fail {e.Message}" });
             }
         }
+        [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Authenticate(UserCredential cred)
         {
@@ -38,6 +41,12 @@ namespace FundooApplication.Controllers
             if (token == null)
                 return Unauthorized();
             return this.Ok(new { success = true, token = token, message = $"Authenticated {cred.Email} {cred.Password}" });
+        }
+
+        [HttpGet]
+        public string Get()
+        {
+            return "access";
         }
 
     }

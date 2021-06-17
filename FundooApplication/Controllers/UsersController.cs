@@ -20,6 +20,7 @@ namespace FundooApplication.Controllers
         {
             this.userBl = userBl;
         }
+        [AllowAnonymous]
         [HttpPost("register")]
         public ActionResult RegisterUser(User user)
         {

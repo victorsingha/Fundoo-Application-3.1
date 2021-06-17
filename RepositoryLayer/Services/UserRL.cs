@@ -33,7 +33,7 @@ namespace RepositoryLayer.Services
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim(ClaimTypes.Email,email)
+                    new Claim("Email",email)
                     }),
                     Expires = DateTime.UtcNow.AddHours(1),
                     SigningCredentials =

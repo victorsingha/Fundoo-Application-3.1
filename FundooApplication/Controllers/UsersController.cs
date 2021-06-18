@@ -60,7 +60,7 @@ namespace FundooApplication.Controllers
             try
             {
                 this.userBl.ForgotPassword(user.Email);
-                return Ok(user.Email);
+                return Ok($"Reset Link sent to {user.Email}");
             }
             catch(Exception e)
             {

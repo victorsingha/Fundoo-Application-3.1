@@ -21,7 +21,7 @@ namespace RepositoryLayer.Services
                 msgObj.To.Add(email);
                 msgObj.From = new MailAddress("sup.pickitup@gmail.com");
                 msgObj.Subject = "Password Reset Link";
-                msgObj.Body = link;
+                msgObj.Body = $"www.fundooapp.com/reset-password/{link}";
                 client.Send(msgObj);
             }
         }

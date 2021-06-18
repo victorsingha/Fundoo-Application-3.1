@@ -3,6 +3,7 @@ using CommonLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,13 +68,14 @@ namespace FundooApplication.Controllers
             }
         }
    
-        [HttpGet("reset-password/{token}")]
-        public ActionResult ResetPassword(string token)
+        [HttpPut("reset-password")]
+        public ActionResult ResetPassword(User user)
         {
             try
-            {             
+            {  
                 var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
-                return Ok($"{UserEmailObject.Value} {token}");
+                this.userBl.ChangePassword(user.Email,user.Password);
+                return Ok($"Updated Email: {UserEmailObject.Value} NewPassword: {user.Password}");
             }
             catch(Exception e)
             {

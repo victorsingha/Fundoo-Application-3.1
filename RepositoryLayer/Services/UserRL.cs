@@ -146,5 +146,22 @@ namespace RepositoryLayer.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public void ChangePassword(string email, string newPassword)
+        {
+            try
+            {
+                var result = _fundooContext.Users.FirstOrDefault(u => u.Email == email);
+                if (result != null)
+                {
+                    result.Password = newPassword;
+                    _fundooContext.SaveChanges();
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

@@ -8,20 +8,20 @@ namespace RepositoryLayer.Services
 {
     public class EmailService
     {
-        public static void SendEmail(string email,string token)
+        public static void SendEmail(string email,string link)
         {
             using (SmtpClient client = new SmtpClient("smtp.gmail.com",587))
             {
                 client.EnableSsl = true;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("fundoo@gmail.com", "fundooPassword");
+                client.UseDefaultCredentials = true;
+                client.Credentials = new NetworkCredential("sup.pickitup@gmail.com", "pickitup000");
 
                 MailMessage msgObj = new MailMessage();
-                msgObj.To.Add(email);
-                msgObj.From = new MailAddress("fundoo@gmail.com");
+                msgObj.To.Add("vicunite2@gmail.com");
+                msgObj.From = new MailAddress("sup.pickitup@gmail.com");
                 msgObj.Subject = "Password Reset Link";
-                msgObj.Body = token;
+                msgObj.Body = link;
                 client.Send(msgObj);
             }
         }

@@ -2,6 +2,7 @@
 using Experimental.System.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -58,45 +59,37 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                MessageQueue fundooQueue;
+                MessageQueue queue;
 
                 //ADD MESSAGE TO QUEUE
                 if (MessageQueue.Exists(@".\Private$\FundooQueue"))
                 {
-                    fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
+                    queue = new MessageQueue(@".\Private$\FundooQueue");
                 }
                 else
                 {
-                    fundooQueue = MessageQueue.Create(@".\Private$\FundooQueue");
+                    queue = MessageQueue.Create(@".\Private$\FundooQueue");
                 }
 
                 Message MyMessage = new Message();
                 MyMessage.Formatter = new BinaryMessageFormatter();
                 MyMessage.Body = email;
                 MyMessage.Label = "Forget Password Email";
-                fundooQueue.Send(MyMessage);
+                queue.Send(MyMessage);
+                Message msg = queue.Receive();
+                msg.Formatter = new BinaryMessageFormatter();
+                EmailService.SendEmail(msg.Body.ToString(), GenerateToken(msg.Body.ToString()));
+                queue.ReceiveCompleted += new ReceiveCompletedEventHandler(msmqQueue_ReceiveCompleted);
+
+                queue.BeginReceive();
+                queue.Close();
 
                 //GET MESSAGE FROM QUEUE
-                fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
-                Message GetMyMessage = fundooQueue.Receive();
-                GetMyMessage.Formatter = new BinaryMessageFormatter();
-                string emailFromQueue = GetMyMessage.Body.ToString();
+                //fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
+                //Message GetMyMessage = fundooQueue.Receive();
+                //GetMyMessage.Formatter = new BinaryMessageFormatter();
+                //string emailFromQueue = GetMyMessage.Body.ToString();
 
-
-                //create message queue instance
-                fundooQueue = new MessageQueue(@".\private$\FundooQueue");
-                //set formatter same as sender
-                fundooQueue.Formatter = new BinaryMessageFormatter();
-                fundooQueue.MessageReadPropertyFilter.SetAll();
-                //Raise receive completed event 
-                fundooQueue.ReceiveCompleted += new ReceiveCompletedEventHandler(msmqQueue_ReceiveCompleted);
-                //start receiving messages
-                fundooQueue.BeginReceive();
-                //In msmqQueue_ReceiveCompleted
-                //Extract the actual message 
-                string emailMsg = GetMyMessage.Body.ToString();               
-                //Create mail message instance 
-                //EmailService.SendEmail(email, GenerateToken(emailMsg));
             }
             catch (Exception e)
             {
@@ -106,7 +99,18 @@ namespace RepositoryLayer.Services
 
         private void msmqQueue_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                MessageQueue queue = (MessageQueue)sender;
+                Message msg = queue.EndReceive(e.AsyncResult);                
+                EmailService.SendEmail(e.Message.ToString(),GenerateToken(e.Message.ToString()));
+                queue.BeginReceive();
+            }
+            catch(Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+            
         }
 
         public void RegisterUser(User user)

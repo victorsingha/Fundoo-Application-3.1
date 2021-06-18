@@ -66,5 +66,19 @@ namespace FundooApplication.Controllers
                 throw new Exception(e.Message);
             }
         }
+   
+        [HttpGet("reset-password/{token}")]
+        public ActionResult ResetPassword()
+        {
+            try
+            {
+                var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
+                return Ok(UserEmailObject.Value);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

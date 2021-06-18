@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 
@@ -60,20 +61,20 @@ namespace RepositoryLayer.Services
                 MessageQueue fundooQueue;
 
                 //ADD MESSAGE TO QUEUE
-                //if (MessageQueue.Exists(@".\Private$\FundooQueue"))
-                //{
-                //    fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
-                //}
-                //else
-                //{
-                //    fundooQueue = MessageQueue.Create(@".\Private$\FundooQueue");
-                //}
+                if (MessageQueue.Exists(@".\Private$\FundooQueue"))
+                {
+                    fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
+                }
+                else
+                {
+                    fundooQueue = MessageQueue.Create(@".\Private$\FundooQueue");
+                }
 
-                //Message MyMessage = new Message();
-                //MyMessage.Formatter = new BinaryMessageFormatter();
-                //MyMessage.Body = email;
-                //MyMessage.Label = "Forget Password Email";
-                //fundooQueue.Send(MyMessage);
+                Message MyMessage = new Message();
+                MyMessage.Formatter = new BinaryMessageFormatter();
+                MyMessage.Body = email;
+                MyMessage.Label = "Forget Password Email";
+                fundooQueue.Send(MyMessage);
 
                 //GET MESSAGE FROM QUEUE
                 fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
@@ -81,11 +82,31 @@ namespace RepositoryLayer.Services
                 GetMyMessage.Formatter = new BinaryMessageFormatter();
                 string emailFromQueue = GetMyMessage.Body.ToString();
 
+
+                //create message queue instance
+                fundooQueue = new MessageQueue(@".\private$\FundooQueue");
+                //set formatter same as sender
+                fundooQueue.Formatter = new BinaryMessageFormatter();
+                fundooQueue.MessageReadPropertyFilter.SetAll();
+                //Raise receive completed event 
+                fundooQueue.ReceiveCompleted += new ReceiveCompletedEventHandler(msmqQueue_ReceiveCompleted);
+                //start receiving messages
+                fundooQueue.BeginReceive();
+                //In msmqQueue_ReceiveCompleted
+                //Extract the actual message 
+                string emailMsg = GetMyMessage.Body.ToString();               
+                //Create mail message instance 
+                //EmailService.SendEmail(email, GenerateToken(emailMsg));
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        private void msmqQueue_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void RegisterUser(User user)
@@ -99,6 +120,31 @@ namespace RepositoryLayer.Services
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        //GENERATE TOKEN WITH EMAIL
+        public string GenerateToken(string email)
+        {
+            if (email == null)
+            {
+                return null;
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenKey = Encoding.ASCII.GetBytes("THIS_IS_MY_KEY_TO_GENERATE_TOKEN");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("Email",email)
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials =
+                new SigningCredentials(
+                    new SymmetricSecurityKey(tokenKey),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

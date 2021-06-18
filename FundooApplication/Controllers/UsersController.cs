@@ -68,12 +68,12 @@ namespace FundooApplication.Controllers
         }
    
         [HttpGet("reset-password/{token}")]
-        public ActionResult ResetPassword()
+        public ActionResult ResetPassword(string token)
         {
             try
-            {
+            {             
                 var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
-                return Ok(UserEmailObject.Value);
+                return Ok($"{UserEmailObject.Value} {token}");
             }
             catch(Exception e)
             {

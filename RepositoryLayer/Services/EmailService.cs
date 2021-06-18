@@ -18,7 +18,7 @@ namespace RepositoryLayer.Services
                 client.Credentials = new NetworkCredential("sup.pickitup@gmail.com", "pickitup000");
 
                 MailMessage msgObj = new MailMessage();
-                msgObj.To.Add("vicunite2@gmail.com");
+                msgObj.To.Add(email);
                 msgObj.From = new MailAddress("sup.pickitup@gmail.com");
                 msgObj.Subject = "Password Reset Link";
                 msgObj.Body = link;

@@ -74,7 +74,7 @@ namespace FundooApplication.Controllers
             try
             {  
                 var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
-                this.userBl.ChangePassword(user.Email,user.Password);
+                this.userBl.ChangePassword(UserEmailObject.Value,user.Password);
                 return Ok($"Updated Email: {UserEmailObject.Value} NewPassword: {user.Password}");
             }
             catch(Exception e)

@@ -1,4 +1,5 @@
 ﻿using CommonLayer;
+using Experimental.System.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Interfaces;
@@ -56,16 +57,16 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                //MessageQueue fundooQueue;
+                MessageQueue fundooQueue;
 
-                ////ADD MESSAGE TO QUEUE
-                //if (MessageQueue.Exists(@".\Private\FundooQueue"))
+                //ADD MESSAGE TO QUEUE
+                //if (MessageQueue.Exists(@".\Private$\FundooQueue"))
                 //{
-                //    fundooQueue = new MessageQueue(@".\Private\FundooQueue");
+                //    fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
                 //}
                 //else
                 //{
-                //    fundooQueue = MessageQueue.Create(@".\Private\FundooQueue");
+                //    fundooQueue = MessageQueue.Create(@".\Private$\FundooQueue");
                 //}
 
                 //Message MyMessage = new Message();
@@ -75,10 +76,10 @@ namespace RepositoryLayer.Services
                 //fundooQueue.Send(MyMessage);
 
                 //GET MESSAGE FROM QUEUE
-                //fundooQueue = new MessageQueue(@".\Private\FundooQueue");
-                //Message GetMyMessage = fundooQueue.Receive();
-                //GetMyMessage.Formatter = new BinaryMessageFormatter();
-                //string emailFromQueue = GetMyMessage.Body.ToString(); 
+                fundooQueue = new MessageQueue(@".\Private$\FundooQueue");
+                Message GetMyMessage = fundooQueue.Receive();
+                GetMyMessage.Formatter = new BinaryMessageFormatter();
+                string emailFromQueue = GetMyMessage.Body.ToString();
 
             }
             catch (Exception e)

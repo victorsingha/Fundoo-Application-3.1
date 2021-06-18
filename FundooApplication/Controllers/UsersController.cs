@@ -52,5 +52,19 @@ namespace FundooApplication.Controllers
             return $"Email:{UserEmail.Value} UserID:{UserID.Value}";
         }
 
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public ActionResult ForgotPassword(User user)
+        {
+            try
+            {
+                this.userBl.ForgotPassword(user.Email);
+                return Ok(user.Email);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

@@ -28,6 +28,18 @@ namespace BusinessLayer.Services
             }
         }
 
+        public void ForgotPassword(string email)
+        {
+            try
+            {
+                this.userRL.ForgotPassword(email);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void RegisterUser(User user)
         {
             try

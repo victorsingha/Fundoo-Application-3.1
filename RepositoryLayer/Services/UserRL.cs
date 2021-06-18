@@ -52,6 +52,41 @@ namespace RepositoryLayer.Services
             }           
         }
 
+        public void ForgotPassword(string email)
+        {
+            try
+            {
+                //MessageQueue fundooQueue;
+
+                ////ADD MESSAGE TO QUEUE
+                //if (MessageQueue.Exists(@".\Private\FundooQueue"))
+                //{
+                //    fundooQueue = new MessageQueue(@".\Private\FundooQueue");
+                //}
+                //else
+                //{
+                //    fundooQueue = MessageQueue.Create(@".\Private\FundooQueue");
+                //}
+
+                //Message MyMessage = new Message();
+                //MyMessage.Formatter = new BinaryMessageFormatter();
+                //MyMessage.Body = email;
+                //MyMessage.Label = "Forget Password Email";
+                //fundooQueue.Send(MyMessage);
+
+                //GET MESSAGE FROM QUEUE
+                //fundooQueue = new MessageQueue(@".\Private\FundooQueue");
+                //Message GetMyMessage = fundooQueue.Receive();
+                //GetMyMessage.Formatter = new BinaryMessageFormatter();
+                //string emailFromQueue = GetMyMessage.Body.ToString(); 
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void RegisterUser(User user)
         {
             try

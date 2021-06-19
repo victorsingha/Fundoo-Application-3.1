@@ -161,7 +161,8 @@ namespace RepositoryLayer.Services
                 var result = _fundooContext.Users.FirstOrDefault(u => u.Email == email);
                 if (result != null)
                 {
-                    result.Password = newPassword;
+                    string encryptedPassword = StringCipher.Encrypt(newPassword);
+                    result.Password = encryptedPassword;
                     _fundooContext.SaveChanges();
                 }
             }

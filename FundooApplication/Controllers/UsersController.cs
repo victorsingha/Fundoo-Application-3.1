@@ -42,7 +42,7 @@ namespace FundooApplication.Controllers
             var token = this.userBl.AuthenticateUser(cred.Email,cred.Password);
             if (token == null)
                 return Unauthorized();
-            return this.Ok(new { success = true, token = token, message = $"Authenticated {cred.Email} {cred.Password}" });
+            return this.Ok(new { success = true, token = token, message = $"Authenticated {cred.Email}" });
         }
 
         [HttpGet]

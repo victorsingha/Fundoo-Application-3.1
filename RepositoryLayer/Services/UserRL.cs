@@ -26,7 +26,8 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var result = _fundooContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+                string encryptedPassword = StringCipher.Encrypt(password);
+                var result = _fundooContext.Users.FirstOrDefault(u => u.Email == email && u.Password == encryptedPassword);
                 if (result == null)
                 {
                     return null;

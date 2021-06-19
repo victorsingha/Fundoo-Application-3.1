@@ -117,6 +117,8 @@ namespace RepositoryLayer.Services
         {
             try
             {
+                string encryptedPassword = StringCipher.Encrypt(user.Password);
+                user.Password = encryptedPassword;
                 _fundooContext.Users.Add(user);
                 _fundooContext.SaveChanges();
             }

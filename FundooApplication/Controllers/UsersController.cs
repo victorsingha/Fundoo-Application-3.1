@@ -59,8 +59,10 @@ namespace FundooApplication.Controllers
         {
             try
             {
-                this.userBl.ForgotPassword(user.Email);
-                return Ok($"Reset Link sent to {user.Email}");
+                bool isExist = this.userBl.ForgotPassword(user.Email);
+                if (isExist) return Ok(new { success = true, message = $"Reset Link sent to {user.Email}"});
+                else return BadRequest(new { success = false, message = $"No user Exist with {user.Email}" });
+
             }
             catch(Exception e)
             {

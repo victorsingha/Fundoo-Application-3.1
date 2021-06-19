@@ -56,10 +56,15 @@ namespace RepositoryLayer.Services
             }           
         }
 
-        public void ForgotPassword(string email)
+        public bool ForgotPassword(string email)
         {
             try
             {
+                var result = _fundooContext.Users.FirstOrDefault(u => u.Email == email);
+                if(result == null)
+                {
+                    return false;
+                }
                 MessageQueue queue;
 
                 //ADD MESSAGE TO QUEUE
@@ -84,6 +89,7 @@ namespace RepositoryLayer.Services
 
                 queue.BeginReceive();
                 queue.Close();
+                return true;
 
                 //GET MESSAGE FROM QUEUE
                 //fundooQueue = new MessageQueue(@".\Private$\FundooQueue");

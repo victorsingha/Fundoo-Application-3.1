@@ -11,7 +11,7 @@ namespace RepositoryLayer.Services
     {
         public static string Encrypt(string clearText)
         {
-            string EncryptionKey = "abc123";
+            string EncryptionKey = "SECRET_KEY";
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
             using (Aes encryptor = Aes.Create())
             {
@@ -32,7 +32,7 @@ namespace RepositoryLayer.Services
         }
         public static string Decrypt(string cipherText)
         {
-            string EncryptionKey = "abc123";
+            string EncryptionKey = "SECRET_KEY";
             cipherText = cipherText.Replace(" ", "+");
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using (Aes encryptor = Aes.Create())

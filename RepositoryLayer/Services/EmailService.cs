@@ -8,7 +8,7 @@ namespace RepositoryLayer.Services
 {
     public class EmailService
     {
-        public static void SendEmail(string email,string link)
+        public static void SendEmail(string email,string token)
         {
             using (SmtpClient client = new SmtpClient("smtp.gmail.com",587))
             {
@@ -21,7 +21,7 @@ namespace RepositoryLayer.Services
                 msgObj.To.Add(email);
                 msgObj.From = new MailAddress("sup.pickitup@gmail.com");
                 msgObj.Subject = "Password Reset Link";
-                msgObj.Body = $"www.fundooapp.com/reset-password/{link}";
+                msgObj.Body = $"www.fundooapp.com/reset-password/{token}";
                 client.Send(msgObj);
             }
         }

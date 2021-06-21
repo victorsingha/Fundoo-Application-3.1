@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer;
+using CommonLayer.RequestModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace FundooApplication.Controllers
 
         [AllowAnonymous]
         [HttpPost("forgot-password")]
-        public ActionResult ForgotPassword(User user)
+        public ActionResult ForgotPassword(UserEmail user)
         {
             try
             {
@@ -71,12 +72,12 @@ namespace FundooApplication.Controllers
         }
    
         [HttpPut("reset-password")]
-        public ActionResult ResetPassword(User user)
+        public ActionResult ResetPassword(UserNewPassword user)
         {
             try
             {  
                 var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
-                this.userBl.ChangePassword(UserEmailObject.Value,user.Password);
+                this.userBl.ChangePassword(UserEmailObject.Value,user.NewPassword);
                 //return Ok($"Updated Email: {UserEmailObject.Value} NewPassword: {user.Password}");
                 return Ok(new { success = true,message = "Password Changed Sucessfully",email = $"{UserEmailObject.Value}" });
             }

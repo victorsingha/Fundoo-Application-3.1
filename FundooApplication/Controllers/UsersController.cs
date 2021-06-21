@@ -76,6 +76,10 @@ namespace FundooApplication.Controllers
         {
             try
             {  
+                if(user.NewPassword != user.ConfirmPassword)
+                {
+                    return Ok(new { success = false, message = "New Password and Confirm Password are not equal." });
+                }
                 var UserEmailObject = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email", StringComparison.InvariantCultureIgnoreCase));
                 this.userBl.ChangePassword(UserEmailObject.Value,user.NewPassword);
                 //return Ok($"Updated Email: {UserEmailObject.Value} NewPassword: {user.Password}");

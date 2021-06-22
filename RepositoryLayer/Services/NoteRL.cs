@@ -53,7 +53,12 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                 return _fundooContext.Notes.ToList();
+                var list = _fundooContext.Notes.Where(e => e.UserId == UserId).ToList();
+                if(list.Count != 0)
+                {
+                    return list;
+                }
+                return null;
             }
             catch(Exception e)
             {

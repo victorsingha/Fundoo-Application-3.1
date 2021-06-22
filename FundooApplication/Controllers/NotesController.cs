@@ -40,8 +40,9 @@ namespace FundooApplication.Controllers
         [HttpGet("list")]
         public ActionResult GetAllNotes(UserIdModel user)
         {
-            var data = this.noteBl.GetAllNotes(user.UserId);
-            return Ok(data);
+            var result = this.noteBl.GetAllNotes(user.UserId);
+            if(result != null) return this.Ok(new { success = true, message = $"List Of Notes with UserId: {user.UserId}.", data = result});
+            return BadRequest(new { success = false, message = $"No such UserID Exist." });
         }
     }
 }

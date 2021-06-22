@@ -38,9 +38,9 @@ namespace FundooApplication.Controllers
         }
         [AllowAnonymous]
         [HttpGet("list")]
-        public ActionResult GetAllNotes(AddNote note)
+        public ActionResult GetAllNotes(UserIdModel user)
         {
-            var data = this.noteBl.GetAllNotes(note.UserId);
+            var data = this.noteBl.GetAllNotes(user.UserId);
             return Ok(data);
         }
     }

@@ -25,8 +25,16 @@ namespace FundooApplication.Controllers
         [HttpPost("add")]
         public ActionResult AddNote(AddNote note)
         {
-            this.noteBl.AddNote(note);
-            return Ok("success");
+            try
+            {
+                this.noteBl.AddNote(note);
+                return this.Ok(new { success = true, message = $"Notes Added with UserId: {note.UserId}." });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { success = false, message = $"No such UserID Exist." });
+            }
+            
         }
         [AllowAnonymous]
         [HttpGet("list")]

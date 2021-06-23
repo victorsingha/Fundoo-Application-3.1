@@ -62,11 +62,12 @@ namespace FundooApplication.Controllers
         }
 
         [AllowAnonymous]
-        [HttpDelete("Delete")]
-        public ActionResult DeleteNote()
+        [HttpDelete("delete")]
+        public ActionResult DeleteNote(Note note)
         {
             try
             {
+                this.noteBl.DeleteNote(note.NotesId);
                 return Ok(new { success = true, message = $"Note Deleted Permanently" });
             }
             catch(Exception e)

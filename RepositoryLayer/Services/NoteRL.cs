@@ -49,6 +49,27 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public void DeleteNote(int noteId)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    _fundooContext.Notes.Remove(result);
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public List<Note> GetAllNotes(int UserId)
         {
             try

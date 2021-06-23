@@ -27,6 +27,18 @@ namespace BusinessLayer.Services
             }
         }
 
+        public void DeleteNote(int noteId)
+        {
+            try
+            {
+                this.noteRL.DeleteNote(noteId);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public List<Note> GetAllNotes(int UserId)
         {
             try

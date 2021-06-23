@@ -21,6 +21,7 @@ namespace FundooApplication.Controllers
         {
             this.noteBl = noteBl;
         }
+
         [AllowAnonymous]
         [HttpPost("add")]
         public ActionResult AddNote(AddNote note)
@@ -33,15 +34,15 @@ namespace FundooApplication.Controllers
             catch(Exception e)
             {
                 return BadRequest(new { success = false, message = $"No such UserID Exist." });
-            }
-            
+            }          
         }
+
         [AllowAnonymous]
-        [HttpGet("list")]
-        public ActionResult GetAllNotes(UserIdModel user)
+        [HttpGet("{userId}")]
+        public ActionResult GetAllNotes(int userId)
         {
-            var result = this.noteBl.GetAllNotes(user.UserId);
-            if(result != null) return this.Ok(new { success = true, message = $"List Of Notes with UserId: {user.UserId}.", data = result});
+            var result = this.noteBl.GetAllNotes(userId);
+            if(result != null) return this.Ok(new { success = true, message = $"List Of Notes with UserId: {userId}.", data = result});
             return BadRequest(new { success = false, message = $"No such UserID Exist." });
         }
     }

@@ -60,5 +60,19 @@ namespace FundooApplication.Controllers
                 return BadRequest(new { success = false, message = $"No such NoteID Exist." });
             }
         }
+
+        [AllowAnonymous]
+        [HttpDelete("Delete")]
+        public ActionResult DeleteNote()
+        {
+            try
+            {
+                return Ok(new { success = true, message = $"Note Deleted Permanently" });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { success = false, message = $"Delete Fail." });
+            }
+        }
     }
 }

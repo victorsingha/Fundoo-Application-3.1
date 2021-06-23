@@ -35,6 +35,7 @@ namespace FundooApplication
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
+            services.AddSwaggerGen();
 
             services.AddAuthentication(x=>
             {
@@ -63,6 +64,13 @@ namespace FundooApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //SWAGGER MIDDLEWARE
+            app.UseSwagger();
+            app.UseSwaggerUI(c => 
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FundooApplication API v1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

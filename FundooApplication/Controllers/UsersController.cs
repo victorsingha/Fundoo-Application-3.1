@@ -51,7 +51,7 @@ namespace FundooApplication.Controllers
         {
             var UserEmail= User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("Email",StringComparison.InvariantCultureIgnoreCase));
             var UserID= User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID",StringComparison.InvariantCultureIgnoreCase));
-            return $"Email:{UserEmail.Value} UserID:{UserID.Value}";
+            return $" CLAIMS Email:{UserEmail.Value} UserID:{UserID.Value}";
         }
 
         [AllowAnonymous]

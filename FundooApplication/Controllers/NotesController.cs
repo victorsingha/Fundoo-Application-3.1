@@ -36,12 +36,12 @@ namespace FundooApplication.Controllers
                 return BadRequest(new { success = false, message = $"No such UserID Exist." });
             }          
         }
-
-        [AllowAnonymous]
-        [HttpGet("{userId}")]
-        public ActionResult GetAllNotes(int userId)
+     
+        [HttpGet("list")]
+        public ActionResult GetAllNotes()
         {
-            var result = this.noteBl.GetAllNotes(userId);
+            var userId = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
+            var result = this.noteBl.GetAllNotes(Int32.Parse(userId.Value));
             if(result != null) return this.Ok(new { success = true, message = $"List Of Notes with UserId: {userId}.", data = result});
             return BadRequest(new { success = false, message = $"No such UserID Exist." });
         }

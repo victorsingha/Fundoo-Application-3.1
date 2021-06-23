@@ -45,5 +45,20 @@ namespace FundooApplication.Controllers
             if(result != null) return this.Ok(new { success = true, message = $"List Of Notes with UserId: {userId}.", data = result});
             return BadRequest(new { success = false, message = $"No such UserID Exist." });
         }
+
+        [AllowAnonymous]
+        [HttpPut("update")]
+        public ActionResult UpdateNote(Note note)
+        {
+            try
+            {
+                this.noteBl.UpdateNote(note);
+                return Ok(new { success = true, message = $"Note Updated." });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { success = false, message = $"No such NoteID Exist." });
+            }
+        }
     }
 }

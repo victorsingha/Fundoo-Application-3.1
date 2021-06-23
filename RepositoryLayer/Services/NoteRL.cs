@@ -65,5 +65,31 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+        public void UpdateNote(Note note)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == note.NotesId);
+                if (result != null)
+                {
+                    result.Title = note.Title;
+                    result.Body = note.Body;
+                    result.Reminder = note.Reminder;
+                    result.isArchived = note.isArchived;
+                    result.isTrash = note.isTrash;
+                    result.isPin = note.isPin;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

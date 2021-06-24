@@ -14,6 +14,5 @@ namespace CommonLayer.RequestModel
         public bool isTrash { get; set; }
         public bool isPin { get; set; }
         public int UserId { get; set; }
-        public User user { get; set; }
     }
 }

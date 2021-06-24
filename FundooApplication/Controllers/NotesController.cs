@@ -27,6 +27,8 @@ namespace FundooApplication.Controllers
         {
             try
             {
+                var userId = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
+                note.UserId = Int32.Parse(userId.Value);
                 this.noteBl.AddNote(note);
                 return this.Ok(new { success = true, message = $"Notes Added with UserId: {note.UserId}." });
             }

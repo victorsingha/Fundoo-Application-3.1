@@ -41,7 +41,7 @@ namespace FundooApplication.Controllers
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
             var result = this.noteBl.GetAllNotes(Int32.Parse(userId.Value));
-            if(result != null) return this.Ok(new { success = true, message = $"List Of Notes with UserId: {userId}.", data = result});
+            if(result != null) return this.Ok(result);
             return BadRequest(new { success = false, message = $"No such UserID Exist." });
         }
 

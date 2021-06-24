@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.DatabaseModel;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace BusinessLayer.Services
             }
         }
 
-        public List<Note> GetAllNotes(int UserId)
+        public List<NoteResponse> GetAllNotes(int UserId)
         {
             try
             {

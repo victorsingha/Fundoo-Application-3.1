@@ -1,5 +1,6 @@
 ﻿using CommonLayer.DatabaseModel;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -70,14 +71,29 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public List<Note> GetAllNotes(int UserId)
+        public List<NoteResponse> GetAllNotes(int UserId)
         {
             try
             {
                 var list = _fundooContext.Notes.Where(e => e.UserId == UserId).ToList();
                 if(list.Count != 0)
                 {
-                    return list;
+                    List<NoteResponse> response = new List<NoteResponse>();
+                    foreach(var note in list)
+                    {
+                        NoteResponse noteResponse = new NoteResponse();
+                        noteResponse.NotesId = note.NotesId;
+                        noteResponse.Title = note.Title;
+                        noteResponse.Body = note.Body;
+                        noteResponse.Reminder = note.Reminder;
+                        noteResponse.isTrash = note.isTrash;
+                        noteResponse.isArchived = note.isArchived;
+                        noteResponse.isPin = note.isPin;
+                        noteResponse.UserId = note.UserId;
+
+                        response.Add(noteResponse);
+                    }
+                    return response;
                 }
                 return null;
             }

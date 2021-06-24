@@ -15,5 +15,10 @@ namespace RepositoryLayer.Interfaces
         void DeleteNote(int noteId);
         void UpdateTitle(int noteId,string title);
         void UpdateBody(int noteId,string body);
+        void UpdateReminder(int noteId, string reminder);
+        void UpdateColor(int noteId, string color);
+        void UpdateArchived(int noteId, bool isArchived);
+        void UpdateTrash(int noteId, bool isTrash);
+        void UpdatePin(int noteId, bool isPin);
     }
 }

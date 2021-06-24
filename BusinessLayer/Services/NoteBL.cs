@@ -52,11 +52,35 @@ namespace BusinessLayer.Services
             }
         }
 
+        public void UpdateArchived(int noteId, bool isArchived)
+        {
+            try
+            {
+                this.noteRL.UpdateArchived(noteId, isArchived);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void UpdateBody(int noteId, string body)
         {
             try
             {
                 this.noteRL.UpdateBody(noteId,body);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateColor(int noteId, string color)
+        {
+            try
+            {
+                this.noteRL.UpdateColor(noteId, color);
             }
             catch (Exception e)
             {
@@ -76,11 +100,47 @@ namespace BusinessLayer.Services
             }
         }
 
+        public void UpdatePin(int noteId, bool isPin)
+        {
+            try
+            {
+                this.noteRL.UpdatePin(noteId, isPin);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateReminder(int noteId, string reminder)
+        {
+            try
+            {
+                this.noteRL.UpdateReminder(noteId, reminder);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void UpdateTitle(int noteId,string title)
         {
             try
             {
                 this.noteRL.UpdateTitle(noteId,title);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateTrash(int noteId, bool isTrash)
+        {
+            try
+            {
+                this.noteRL.UpdateTrash(noteId, isTrash);
             }
             catch (Exception e)
             {

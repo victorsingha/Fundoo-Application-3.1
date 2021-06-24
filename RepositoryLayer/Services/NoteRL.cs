@@ -86,6 +86,7 @@ namespace RepositoryLayer.Services
                         noteResponse.Title = note.Title;
                         noteResponse.Body = note.Body;
                         noteResponse.Reminder = note.Reminder;
+                        noteResponse.Color = note.Color;
                         noteResponse.isTrash = note.isTrash;
                         noteResponse.isArchived = note.isArchived;
                         noteResponse.isPin = note.isPin;
@@ -103,6 +104,27 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public void UpdateArchived(int noteId, bool isArchived)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.isArchived = isArchived;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void UpdateBody(int noteId, string body)
         {
             try
@@ -111,6 +133,27 @@ namespace RepositoryLayer.Services
                 if (result != null)
                 {
                     result.Body = body;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateColor(int noteId, string color)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.Color = color;
                     _fundooContext.SaveChanges();
                 }
                 else
@@ -150,6 +193,48 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public void UpdatePin(int noteId, bool isPin)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.isPin = isPin;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateReminder(int noteId, string reminder)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.Reminder = reminder;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void UpdateTitle(int noteId,string title)
         {
             try
@@ -158,6 +243,27 @@ namespace RepositoryLayer.Services
                 if (result != null)
                 {
                     result.Title = title;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateTrash(int noteId, bool isTrash)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.isTrash = isTrash;
                     _fundooContext.SaveChanges();
                 }
                 else

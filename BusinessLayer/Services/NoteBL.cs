@@ -52,6 +52,18 @@ namespace BusinessLayer.Services
             }
         }
 
+        public void UpdateBody(int noteId, string body)
+        {
+            try
+            {
+                this.noteRL.UpdateBody(noteId,body);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void UpdateNote(Note note)
         {
             try 

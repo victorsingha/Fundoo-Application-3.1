@@ -103,6 +103,27 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public void UpdateBody(int noteId, string body)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.Body = body;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public void UpdateNote(Note note)
         {
             try

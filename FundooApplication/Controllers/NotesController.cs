@@ -86,5 +86,19 @@ namespace FundooApplication.Controllers
                 return BadRequest(new { success = false, message = $"Update Fail." });
             }
         }
+
+        [HttpPut("body/{noteId}")]
+        public ActionResult UpdateBody(int noteId, NoteBody noteBody)
+        {
+            try
+            {
+                this.noteBl.UpdateBody(noteId, noteBody.Body);
+                return Ok(new { success = true, message = $"Body Updated" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { success = false, message = $"Update Fail." });
+            }
+        }
     }
 }

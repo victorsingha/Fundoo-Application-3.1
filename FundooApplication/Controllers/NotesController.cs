@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FundooApplication.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class NotesController : ControllerBase
@@ -22,7 +22,6 @@ namespace FundooApplication.Controllers
             this.noteBl = noteBl;
         }
 
-        [AllowAnonymous]
         [HttpPost("add")]
         public ActionResult AddNote(AddNote note)
         {
@@ -46,7 +45,6 @@ namespace FundooApplication.Controllers
             return BadRequest(new { success = false, message = $"No such UserID Exist." });
         }
 
-        [AllowAnonymous]
         [HttpPut("update")]
         public ActionResult UpdateNote(Note note)
         {
@@ -60,14 +58,13 @@ namespace FundooApplication.Controllers
                 return BadRequest(new { success = false, message = $"No such NoteID Exist." });
             }
         }
-
-        [AllowAnonymous]
-        [HttpDelete("delete")]
-        public ActionResult DeleteNote(Note note)
+    
+        [HttpDelete("delete/{noteId}")]
+        public ActionResult DeleteNote(int noteId)
         {
             try
             {
-                this.noteBl.DeleteNote(note.NotesId);
+                this.noteBl.DeleteNote(noteId);
                 return Ok(new { success = true, message = $"Note Deleted Permanently" });
             }
             catch(Exception e)

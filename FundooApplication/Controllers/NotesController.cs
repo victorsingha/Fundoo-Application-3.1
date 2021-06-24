@@ -42,6 +42,7 @@ namespace FundooApplication.Controllers
             try
             {
                 var userId = User.Claims.FirstOrDefault(x => x.Type.ToString().Equals("UserID", StringComparison.InvariantCultureIgnoreCase));
+                if(userId == null) return BadRequest(new { success = false, message = $"Unauthorised" });
                 var result = this.noteBl.GetAllNotes(Int32.Parse(userId.Value));
                 if (result != null) return this.Ok(result);
                 return BadRequest(new { success = false, message = $"No such UserID Exist." });

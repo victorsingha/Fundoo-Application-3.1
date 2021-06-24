@@ -13,5 +13,6 @@ namespace RepositoryLayer.Interfaces
         List<NoteResponse> GetAllNotes(int UserId);
         void UpdateNote(Note note);
         void DeleteNote(int noteId);
+        void UpdateTitle(int noteId,string title);
     }
 }

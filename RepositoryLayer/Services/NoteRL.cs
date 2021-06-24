@@ -128,5 +128,26 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+        public void UpdateTitle(int noteId,string title)
+        {
+            try
+            {
+                var result = _fundooContext.Notes.FirstOrDefault(u => u.NotesId == noteId);
+                if (result != null)
+                {
+                    result.Title = title;
+                    _fundooContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No such NoteId Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

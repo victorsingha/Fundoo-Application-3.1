@@ -63,5 +63,17 @@ namespace BusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
+        public void UpdateTitle(int noteId,string title)
+        {
+            try
+            {
+                this.noteRL.UpdateTitle(noteId,title);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

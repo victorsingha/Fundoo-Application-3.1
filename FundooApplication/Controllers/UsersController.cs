@@ -2,6 +2,7 @@
 using CommonLayer;
 using CommonLayer.RequestModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace FundooApplication.Controllers
 {
+    //[EnableCors("AllowOrigin")]
+    //[EnableCors]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -40,10 +43,18 @@ namespace FundooApplication.Controllers
         [HttpPost("login")]
         public IActionResult Authenticate(UserCredential cred)
         {
-            var token = this.userBl.AuthenticateUser(cred.Email,cred.Password);
-            if (token == null)
-                return Unauthorized();
-            return this.Ok(new { success = true, token = token, message = $"Authenticated {cred.Email}" });
+            try
+            {
+                var token = this.userBl.AuthenticateUser(cred.Email, cred.Password);
+                if (token == null)
+                    return Unauthorized();
+                return this.Ok(new { success = true, token = token, message = $"Authenticated {cred.Email}" });
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            
         }
 
         [HttpGet]

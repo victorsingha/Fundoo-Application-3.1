@@ -36,7 +36,20 @@ namespace FundooApplication
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
-            services.AddSwaggerGen();
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(name: "AllowOrigin",
+            //        builder =>
+            //        {
+            //            builder.AllowAnyOrigin()
+            //                   .AllowAnyHeader()
+            //                   .AllowAnyMethod();
+            //        });
+            //});
+
+            services.AddCors();
+            //services.AddSwaggerGen();
 
             services.AddAuthentication(x=>
             {
@@ -82,6 +95,7 @@ namespace FundooApplication
                 });
 
             });
+            //services.AddCors(options => options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()));
 
             services.AddTransient<IUserBL,UserBL>();
             services.AddTransient<IUserRL,UserRL>();
@@ -92,24 +106,33 @@ namespace FundooApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             //SWAGGER MIDDLEWARE
             app.UseSwagger();
             app.UseSwaggerUI(c => 
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "FundooApplication API v1");
             });
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseHttpsRedirection();
+
 
             app.UseRouting();
 
+            //app.UseCors("AllowOrigin");
+            app.UseCors(builder => {
+                builder.SetIsOriginAllowed(origin => true);
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
+
+
             app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

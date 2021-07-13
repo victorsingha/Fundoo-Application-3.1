@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLogger;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,12 @@ namespace FundooApplication.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ILoggerManager _logger;
         IUserBL userBl;
-        public UsersController(IUserBL userBl)
+        public UsersController(IUserBL userBl, ILoggerManager logger)
         {
             this.userBl = userBl;
+            this._logger = logger;
         }
         [AllowAnonymous]
         [HttpPost("register")]
@@ -45,6 +48,7 @@ namespace FundooApplication.Controllers
         {
             try
             {
+                _logger.LogInfo($"User Login : {cred.Email}");
                 var token = this.userBl.AuthenticateUser(cred.Email, cred.Password);
                 if (token == null)
                     return Unauthorized();
@@ -52,6 +56,7 @@ namespace FundooApplication.Controllers
             }
             catch(Exception e)
             {
+                _logger.LogError($"User Login Fail: {cred.Email}");
                 throw new Exception(e.Message);
             }
             
